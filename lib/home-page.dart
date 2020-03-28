@@ -61,11 +61,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildItem(Item item) {
-    final _cardRadius = BorderRadius.all(Radius.circular(8));
-    var _cardChild = Container(
+    double cardRadius = 8.0;
+    Widget _cardChild = Container(
       decoration: BoxDecoration(
         color: Theme.of(context).primaryColorLight,
-        borderRadius: _cardRadius,
       ),
     );
 
@@ -73,7 +72,6 @@ class _HomePageState extends State<HomePage> {
       _cardChild = Container(
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColorDark,
-          borderRadius: _cardRadius,
           image: DecorationImage(
             image: NetworkImage(item.imageUrl),
             fit: BoxFit.cover,
@@ -90,6 +88,10 @@ class _HomePageState extends State<HomePage> {
       ),
       child: Card(
         child: _cardChild,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(cardRadius),
+        ),
+        clipBehavior: Clip.hardEdge,
       ),
     );
   }
