@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fit/providers/item-groups.provider.dart';
 
+import 'browse-image-page.dart';
 import 'login-page.dart';
 import 'models/domain/item-group.dart';
 
@@ -81,8 +82,15 @@ class _HomePageState extends State<HomePage> {
       );
     }
 
-    return Card(
-      child: _cardChild,
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => BrowseImagePage(item.imageUrl),
+        ),
+      ),
+      child: Card(
+        child: _cardChild,
+      ),
     );
   }
 }
