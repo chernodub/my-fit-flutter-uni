@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:my_fit/providers/item-groups.provider.dart';
 
 import 'browse-image-page.dart';
-import 'login-page.dart';
 import 'models/domain/item-group.dart';
+import 'widgets/main-drawer.dart';
 
 class HomePage extends StatefulWidget {
   static const title = 'My Fit';
@@ -30,7 +30,8 @@ class _HomePageState extends State<HomePage> {
         title: Text(HomePage.title),
       ),
       body: _buildBody(),
-      drawer: _Drawer(context),
+      drawer: MyFitMainDrawer(context),
+      floatingActionButton: _Fab(),
     );
   }
 
@@ -62,16 +63,17 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildItem(Item item) {
     double cardRadius = 8.0;
+    Color cardColor = Theme.of(context).primaryColorLight;
     Widget _cardChild = Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColorLight,
+        color: cardColor,
       ),
     );
 
     if (item != null) {
       _cardChild = Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColorDark,
+          color: cardColor,
           image: DecorationImage(
             image: NetworkImage(item.imageUrl),
             fit: BoxFit.cover,
@@ -97,45 +99,30 @@ class _HomePageState extends State<HomePage> {
   }
 }
 
-class _Drawer extends StatelessWidget {
-  _Drawer(BuildContext context);
+class _Fab extends StatelessWidget {
+  final void Function() dislikeCallback;
+  final void Function() likeCallback;
+
+  _Fab({this.dislikeCallback, this.likeCallback});
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      child: Column(
-        children: <Widget>[
-          DrawerHeader(
-            child: Container(
-              child: Column(
-                children: <Widget>[
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      IconButton(
-                          icon: Icon(Icons.arrow_back),
-                          onPressed: () => Navigator.of(context).pop()),
-                      IconButton(
-                        icon: Icon(Icons.exit_to_app),
-                        onPressed: () => Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginPage(),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: EdgeInsets.all(20),
-                    child: Icon(Icons.account_circle),
-                  ),
-                ],
-              ),
-            ),
-          )
-        ],
-      ),
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: <Widget>[
+        FloatingActionButton(
+          heroTag: 'Dislike',
+          onPressed: () => null,
+          child: Icon(Icons.thumb_down),
+        ),
+        SizedBox(width: 12),
+        FloatingActionButton(
+          heroTag: 'Like',
+          onPressed: () => null,
+          child: Icon(Icons.thumb_up),
+        ),
+      ],
     );
   }
 }
