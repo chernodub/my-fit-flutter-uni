@@ -40,10 +40,6 @@ class MyFitMainDrawer extends StatelessWidget {
                 ),
               ],
             ),
-            Container(
-              padding: EdgeInsets.all(20),
-              child: Icon(Icons.account_circle),
-            ),
           ],
         ),
       ),
