@@ -1,4 +1,5 @@
 import 'package:my_fit/models/domain/item-group.dart';
+import 'package:my_fit/models/domain/item.dart';
 
 class ItemGroupProvider {
   Future<ItemGroup> getItemGroupToAssess() async {

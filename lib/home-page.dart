@@ -4,6 +4,7 @@ import 'package:my_fit/providers/item-groups.provider.dart';
 
 import 'browse-image-page.dart';
 import 'models/domain/item-group.dart';
+import 'models/domain/item.dart';
 import 'widgets/main-drawer.dart';
 
 class HomePage extends StatefulWidget {
