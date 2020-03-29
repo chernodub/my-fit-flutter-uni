@@ -37,6 +37,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
+  /// Build list of a cards displaying favorite groups.
   ListView _buildFavouriteGroupsList(List<ItemGroup> data) {
     return ListView(
         children: (data != null ? data : [null, null, null])

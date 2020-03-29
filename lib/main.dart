@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_fit/home-page.dart';
 
-import 'login-page.dart';
-
 void main() => runApp(MyFitApp());
 
 class MyFitApp extends StatelessWidget {

@@ -36,7 +36,7 @@ class _LoginFormState extends State<_LoginForm> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _formHeader(),
+          _buildFormHeader(),
           Padding(
             padding: textFieldPadding,
             child: TextFormField(
@@ -59,6 +59,7 @@ class _LoginFormState extends State<_LoginForm> {
     );
   }
 
+  /// Submit form.
   void _submitForm() {
     if (_formKey.currentState.validate()) {
       Navigator.of(context)
@@ -66,7 +67,8 @@ class _LoginFormState extends State<_LoginForm> {
     }
   }
 
-  Widget _formHeader() {
+  /// Build form header.
+  Widget _buildFormHeader() {
     final headerStyle = TextStyle(fontWeight: FontWeight.bold, fontSize: 20);
     return Text(
       _formTitle,
@@ -75,6 +77,7 @@ class _LoginFormState extends State<_LoginForm> {
   }
 }
 
+/// Validator for a required field.
 String require(String value, String fieldName) {
   return value.isEmpty ? 'Please enter a $fieldName' : null;
 }

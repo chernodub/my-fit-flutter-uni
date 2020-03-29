@@ -1,7 +1,9 @@
 import 'package:my_fit/models/domain/item-group.dart';
 import 'package:my_fit/models/domain/item.dart';
 
+/// Item groups provider. Used to get item groups to assess or simply display.
 class ItemGroupProvider {
+  /// Get item group for the user to assess.
   Future<ItemGroup> getItemGroupToAssess() async {
     return Future.delayed(new Duration(seconds: 2)).then(
       (_) => new ItemGroup([
@@ -13,6 +15,7 @@ class ItemGroupProvider {
     );
   }
 
+  /// Get favorite groups.
   Future<List<ItemGroup>> getFavoriteItemGroups() async {
     return getItemGroupToAssess().then((itemGroup) => [
           itemGroup,

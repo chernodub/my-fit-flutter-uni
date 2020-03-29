@@ -19,6 +19,7 @@ class MyFitMainDrawer extends StatelessWidget {
     );
   }
 
+  /// Build a header for the drawer.
   DrawerHeader _buildDrawerHeader(BuildContext context) {
     return DrawerHeader(
       child: Container(
@@ -47,6 +48,7 @@ class MyFitMainDrawer extends StatelessWidget {
     );
   }
 
+  /// Build navigation list.
   List<ListTile> _buildNavigationList(BuildContext context) {
     return [
       ListTile(
