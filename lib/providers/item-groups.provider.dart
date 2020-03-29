@@ -12,4 +12,21 @@ class ItemGroupProvider {
       ]),
     );
   }
+
+  Future<List<ItemGroup>> getFavoriteItemGroups() async {
+    return getItemGroupToAssess().then((itemGroup) => [
+          itemGroup,
+          itemGroup,
+          new ItemGroup([
+            new Item(
+                'https://www.yoox.com/images/items/38/38904665mg_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
+            new Item(
+                'https://www.yoox.com/images/items/38/38904665mg_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
+            new Item(
+                'https://www.yoox.com/images/items/38/38904665mg_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
+            new Item(
+                'https://www.yoox.com/images/items/13/13449138md_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
+          ])
+        ]);
+  }
 }

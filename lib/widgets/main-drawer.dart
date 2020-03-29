@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_fit/favorites-page.dart';
 
 import '../home-page.dart';
 import '../login-page.dart';
@@ -53,6 +54,15 @@ class MyFitMainDrawer extends StatelessWidget {
         onTap: () => Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (context) => HomePage(),
+          ),
+        ),
+      ),
+      ListTile(
+        title: Text('Favorites'),
+        leading: Icon(Icons.favorite),
+        onTap: () => Navigator.of(context).pushReplacement(
+          MaterialPageRoute(
+            builder: (context) => FavoritesPage(),
           ),
         ),
       )

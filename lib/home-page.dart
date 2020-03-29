@@ -41,9 +41,6 @@ class _HomePageState extends State<HomePage> {
       builder: (context, snapshot) {
         return GridView.count(
           crossAxisCount: 2,
-          padding: EdgeInsets.all(8),
-          crossAxisSpacing: 8,
-          mainAxisSpacing: 8,
           children: snapshot.data != null
               ? _buildItemsListFromItemGroup(snapshot.data)
               : _buildItemsListSkeleton(),
