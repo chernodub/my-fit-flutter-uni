@@ -31,6 +31,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class _LoginForm extends StatefulWidget {
+  /// Callback to call after successful submission of a form.
   final Function() _onSuccessCallback;
 
   _LoginForm(this._onSuccessCallback);

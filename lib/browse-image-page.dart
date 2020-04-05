@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BrowseImagePage extends StatelessWidget {
+  /// Image url.
   final String imageUrl;
 
   BrowseImagePage(this.imageUrl);

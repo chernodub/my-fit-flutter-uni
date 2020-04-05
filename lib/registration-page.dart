@@ -23,6 +23,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     );
   }
 
+  /// Navigate to home page.
   void _navigateToHomePage() {
     Navigator.of(context).pushReplacement(
       MaterialPageRoute(
@@ -33,6 +34,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 }
 
 class _RegistrationForm extends StatefulWidget {
+  /// Callback to call after successful submission of a form.
   final void Function() _onSuccessCallback;
 
   _RegistrationForm(this._onSuccessCallback);
@@ -138,7 +140,6 @@ class _RegistrationFormState extends State<_RegistrationForm> {
 
   /// Submit form action.
   Future<void> _submitForm() async {
-    print('aaaaaaaaaaa');
     if (_formKey.currentState.validate()) {
       final result = await Provider.of<UserModel>(context, listen: false).login(
         _loginFieldController.value.text,

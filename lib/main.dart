@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:my_fit/home-page.dart';
-import 'package:my_fit/login-page.dart';
 import 'package:provider/provider.dart';
 
 import 'models/user.model.dart';
@@ -11,11 +10,7 @@ class MyFitApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
-      child: Consumer<UserModel>(builder: (_, UserModel model, __) {
-        return _buildMaterialAppWithPage(
-          model.user == null ? LoginPage() : HomePage(),
-        );
-      }),
+      child: _buildMaterialAppWithPage(HomePage()),
       providers: _getGlobalProviders(),
     );
   }

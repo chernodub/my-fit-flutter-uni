@@ -24,12 +24,16 @@ class User {
 class UserMetadata {}
 
 class UserModel extends ChangeNotifier {
+  /// Current user.
   User _currentUser;
 
+  /// Current user.
   User get user => _currentUser;
 
+  /// Perform login.
   Future<AuthResult<void, AuthResultError>> login(
       String login, String password) async {
+    /// TODO remove
     await Future.delayed(
       Duration(milliseconds: 200),
     );
@@ -37,8 +41,10 @@ class UserModel extends ChangeNotifier {
     return AuthResult();
   }
 
+  /// Perform registration.
   Future<AuthResult<void, AuthResultError>> register(
       String login, String password) async {
+    /// TODO remove
     await Future.delayed(
       Duration(milliseconds: 200),
     );

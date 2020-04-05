@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class FormBody extends StatelessWidget {
+  /// Form body children.
   final List<Widget> children;
 
   FormBody({this.children});

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 
 class FormHeader extends StatelessWidget {
+  /// Header text.
   final String text;
 
   FormHeader(this.text);

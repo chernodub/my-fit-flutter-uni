@@ -1,8 +1,9 @@
+import 'package:flutter/material.dart';
 import 'package:my_fit/entities/domain/item-group.dart';
 import 'package:my_fit/entities/domain/item.dart';
 
 /// Training model.
-class TrainingModel {
+class TrainingModel extends ChangeNotifier {
   /// Get item group for the user to assess.
   Future<ItemGroup> getItemGroupToAssess() async {
     return Future.delayed(new Duration(seconds: 2)).then(

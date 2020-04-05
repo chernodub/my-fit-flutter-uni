@@ -12,12 +12,13 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
-  Future<List<ItemGroup>> _data;
+  /// List of favorite groups.
+  Future<List<ItemGroup>> _favoriteGroups;
 
   @override
   void initState() {
     final provider = TrainingModel();
-    _data = provider.getFavoriteItemGroups();
+    _favoriteGroups = provider.getFavoriteItemGroups();
     super.initState();
   }
 
@@ -31,7 +32,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
       body: FutureBuilder(
         builder: (context, snapshot) =>
             _buildFavouriteGroupsList(snapshot.data),
-        future: _data,
+        future: _favoriteGroups,
         initialData: null,
       ),
     );
