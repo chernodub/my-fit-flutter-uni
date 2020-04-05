@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_fit/models/domain/item-group.dart';
-import 'package:my_fit/providers/item-groups.provider.dart';
 import 'package:my_fit/widgets/favorite-group-card.dart';
 import 'package:my_fit/widgets/main-drawer.dart';
 
-import 'models/domain/item.dart';
+import 'entities/domain/item-group.dart';
+import 'models/training.model.dart';
 
 class FavoritesPage extends StatefulWidget {
   @override
@@ -16,9 +15,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
   Future<List<ItemGroup>> _data;
 
   @override
-  Future<void> initState() {
-    final provider = ItemGroupProvider();
+  void initState() {
+    final provider = TrainingModel();
     _data = provider.getFavoriteItemGroups();
+    super.initState();
   }
 
   @override

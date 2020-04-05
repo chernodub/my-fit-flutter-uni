@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:my_fit/models/domain/item-group.dart';
-import 'package:my_fit/models/domain/item.dart';
+import 'package:my_fit/entities/domain/item-group.dart';
+import 'package:my_fit/entities/domain/item.dart';
 
 class FavoriteGroupCard extends StatelessWidget {
   /// Count of images on a tile.

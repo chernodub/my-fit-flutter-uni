@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:my_fit/providers/auth.provider.dart';
+import 'package:my_fit/home-page.dart';
+import 'package:my_fit/models/user.model.dart';
+import 'package:my_fit/registration-page.dart';
+import 'package:my_fit/widgets/form/form-body.dart';
+import 'package:my_fit/widgets/form/form-footer.dart';
+import 'package:my_fit/widgets/form/form-header.dart';
+import 'package:provider/provider.dart';
 import 'package:validators/validators.dart' as Validators;
-
-import 'home-page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -27,9 +31,9 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class _LoginForm extends StatefulWidget {
-  final Function() onSuccessCallback;
+  final Function() _onSuccessCallback;
 
-  _LoginForm(this.onSuccessCallback);
+  _LoginForm(this._onSuccessCallback);
 
   @override
   State<StatefulWidget> createState() => _LoginFormState();
@@ -42,47 +46,46 @@ class _LoginFormState extends State<_LoginForm> {
   /// Formkey to control the form.
   final _formKey = GlobalKey<FormState>();
 
-  /// Login field controller.
+  /// Textfield controllers.
   final _loginFieldController = TextEditingController();
-
-  /// Password field controller.
   final _passwordFieldController = TextEditingController();
 
   /// Async validation result.
-  LoginErrorValidationResult _errorValidationResult;
-
-  /// Auth provider.
-  final authProvider = new AuthProvider();
+  AuthResultError _errorValidationResult;
 
   @override
   Widget build(BuildContext context) {
-    final textFieldPadding =
-        const EdgeInsets.symmetric(vertical: 4, horizontal: 8);
     return Form(
       key: _formKey,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: <Widget>[
-          _buildFormHeader(),
-          Padding(
-            padding: textFieldPadding,
-            child: TextFormField(
-              controller: _loginFieldController,
-              validator: _validateLoginField,
-            ),
+          FormHeader(_formTitle),
+          FormBody(
+            children: <Widget>[
+              TextFormField(
+                controller: _loginFieldController,
+                validator: _validateLoginField,
+              ),
+              TextFormField(
+                controller: _passwordFieldController,
+                validator: _validatePasswordField,
+                obscureText: true,
+              )
+            ],
           ),
-          Padding(
-            padding: textFieldPadding,
-            child: TextFormField(
-              controller: _passwordFieldController,
-              validator: _validatePasswordField,
-              obscureText: true,
-            ),
-          ),
-          RaisedButton(
-            onPressed: _submitForm,
-            child: Text('OK'),
-          ),
+          FormFooter(
+            children: <Widget>[
+              RaisedButton(
+                onPressed: () => _submitForm(context),
+                child: Text('OK'),
+              ),
+              OutlineButton(
+                onPressed: () => _navigateToRegistration(context),
+                child: Text('I don\'t have an acount'),
+              )
+            ],
+          )
         ],
       ),
     );
@@ -96,11 +99,12 @@ class _LoginFormState extends State<_LoginForm> {
   }
 
   /// Submit form.
-  Future<void> _submitForm() async {
+  Future<void> _submitForm(BuildContext context) async {
     if (_formKey.currentState.validate()) {
-      final loginActionResult = await authProvider.login(
-        _loginFieldController.value,
-        _passwordFieldController.value,
+      final loginActionResult =
+          await Provider.of<UserModel>(context, listen: false).login(
+        _loginFieldController.value.text,
+        _passwordFieldController.value.text,
       );
 
       if (loginActionResult.error != null) {
@@ -110,20 +114,8 @@ class _LoginFormState extends State<_LoginForm> {
         return;
       }
 
-      widget.onSuccessCallback();
+      widget._onSuccessCallback();
     }
-  }
-
-  /// Build form header.
-  Widget _buildFormHeader() {
-    final headerStyle = TextStyle(
-      fontWeight: FontWeight.bold,
-      fontSize: 20,
-    );
-    return Text(
-      _formTitle,
-      style: headerStyle,
-    );
   }
 
   /// Login field validation function.
@@ -143,5 +135,13 @@ class _LoginFormState extends State<_LoginForm> {
     else if (_errorValidationResult != null)
       return _errorValidationResult.password;
     return null;
+  }
+
+  void _navigateToRegistration(BuildContext context) {
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => RegistrationPage(),
+      ),
+    );
   }
 }

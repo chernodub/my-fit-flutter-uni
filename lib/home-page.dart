@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_fit/providers/item-groups.provider.dart';
 
 import 'browse-image-page.dart';
-import 'models/domain/item-group.dart';
-import 'models/domain/item.dart';
+import 'entities/domain/item-group.dart';
+import 'entities/domain/item.dart';
+import 'models/training.model.dart';
 import 'widgets/main-drawer.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,9 +19,10 @@ class _HomePageState extends State<HomePage> {
   Future<ItemGroup> _data;
 
   @override
-  Future<void> initState() {
-    final provider = ItemGroupProvider();
-    _data = provider.getItemGroupToAssess();
+  void initState() {
+    final training = TrainingModel();
+    _data = training.getItemGroupToAssess();
+    super.initState();
   }
 
   @override

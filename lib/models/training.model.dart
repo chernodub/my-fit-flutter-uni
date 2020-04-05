@@ -1,8 +1,8 @@
-import 'package:my_fit/models/domain/item-group.dart';
-import 'package:my_fit/models/domain/item.dart';
+import 'package:my_fit/entities/domain/item-group.dart';
+import 'package:my_fit/entities/domain/item.dart';
 
-/// Item groups provider. Used to get item groups to assess or simply display.
-class ItemGroupProvider {
+/// Training model.
+class TrainingModel {
   /// Get item group for the user to assess.
   Future<ItemGroup> getItemGroupToAssess() async {
     return Future.delayed(new Duration(seconds: 2)).then(
