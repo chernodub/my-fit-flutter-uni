@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_fit/widgets/favorite-group-card.dart';
-import 'package:my_fit/widgets/main-drawer.dart';
+import 'package:my_fit/common/favorite-group-card.dart';
+import 'package:my_fit/common/main-drawer.dart';
 
 import 'entities/domain/item-group.dart';
-import 'models/training.model.dart';
+import 'models/training.dart';
 
 class FavoritesPage extends StatefulWidget {
   @override

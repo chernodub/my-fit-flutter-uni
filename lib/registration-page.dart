@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_fit/home-page.dart';
-import 'package:my_fit/login-page.dart';
-import 'package:my_fit/models/user.model.dart';
-import 'package:my_fit/widgets/form/form-body.dart';
-import 'package:my_fit/widgets/form/form-footer.dart';
-import 'package:my_fit/widgets/form/form-header.dart';
+import 'package:my_fit/models/user.dart';
+import 'package:my_fit/common/form/form-body.dart';
+import 'package:my_fit/common/form/form-footer.dart';
+import 'package:my_fit/common/form/form-header.dart';
 import 'package:provider/provider.dart';
 import 'package:validators/validators.dart' as Validators;
 
@@ -25,11 +23,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   /// Navigate to home page.
   void _navigateToHomePage() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => HomePage(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed('/');
   }
 }
 
@@ -79,16 +73,25 @@ class _RegistrationFormState extends State<_RegistrationForm> {
               TextFormField(
                 controller: _loginFieldController,
                 validator: _validateLoginField,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                ),
               ),
               TextFormField(
                 controller: _passwordFieldController,
                 validator: _validatePasswordField,
                 obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                ),
               ),
               TextFormField(
                 controller: _passwordRepeatFieldController,
                 validator: _validatePasswordRepeatFieldController,
                 obscureText: true,
+                decoration: InputDecoration(
+                  hintText: 'Repeat password',
+                ),
               )
             ],
           ),
@@ -157,10 +160,6 @@ class _RegistrationFormState extends State<_RegistrationForm> {
 
   /// Navigate to login page.
   void _navigateToLogin(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => LoginPage(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed('/login');
   }
 }

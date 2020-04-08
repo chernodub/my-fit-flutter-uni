@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
-import 'browse-image-page.dart';
-import 'entities/domain/item-group.dart';
-import 'entities/domain/item.dart';
-import 'models/training.model.dart';
-import 'widgets/main-drawer.dart';
+import 'package:my_fit/browse-image-page.dart';
+import 'package:my_fit/entities/domain/item-group.dart';
+import 'package:my_fit/entities/domain/item.dart';
+import 'package:my_fit/models/training.dart';
+import 'package:my_fit/common/main-drawer.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static const title = 'My Fit';
@@ -16,15 +16,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future<ItemGroup> _data;
-
-  @override
-  void initState() {
-    final training = TrainingModel();
-    _data = training.getItemGroupToAssess();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,46 +24,58 @@ class _HomePageState extends State<HomePage> {
       ),
       body: _buildBody(),
       drawer: MyFitMainDrawer(context),
-      floatingActionButton: _Fab(),
+      floatingActionButton: _buildFab(context),
+    );
+  }
+
+  Widget _buildFab(BuildContext context) {
+    final training = Provider.of<TrainingModel>(context);
+    return _FabNextItemGroup(
+      onClickCallback: () => training.requestNewItemGroupToAssess(),
     );
   }
 
   Widget _buildBody() {
-    return FutureBuilder(
-      builder: (context, snapshot) {
-        return GridView.count(
-          crossAxisCount: 2,
-          children: snapshot.data != null
-              ? _buildItemsListFromItemGroup(snapshot.data)
-              : _buildItemsListSkeleton(),
-        );
-      },
-      future: _data,
-      initialData: null,
+    return Consumer<TrainingModel>(
+      builder: (_, model, __) => _buildGrid(
+        model.itemGroupToAssess != null
+            ? _buildItemsListFromItemGroup(model.itemGroupToAssess)
+            : _buildItemsListSkeleton(),
+      ),
+    );
+  }
+
+  GridView _buildGrid(List<Widget> children) {
+    return GridView.count(
+      crossAxisCount: 2,
+      children: children,
     );
   }
 
   List<Widget> _buildItemsListFromItemGroup(ItemGroup itemGroup) {
-    return itemGroup.items.map((item) => _buildItem(item)).toList();
+    return itemGroup.items.map((item) => _buildItemCard(item)).toList();
   }
 
   List<Widget> _buildItemsListSkeleton() {
-    return [null, null, null].map((item) => _buildItem(item)).toList();
+    return [null, null, null].map((item) => _buildItemCard(item)).toList();
   }
 
-  Widget _buildItem(Item item) {
-    double cardRadius = 8.0;
-    Color cardColor = Theme.of(context).primaryColorLight;
+  Widget _buildItemCard(Item item) {
+    final cardRadius = 8.0;
+    final cardBackgroundColor = Theme.of(context).primaryColorLight;
+    final onTapAction = _getOnItemTapAction(item);
+
+    /// TODO refactor this logic
     Widget _cardChild = Container(
       decoration: BoxDecoration(
-        color: cardColor,
+        color: cardBackgroundColor,
       ),
     );
 
     if (item != null) {
       _cardChild = Container(
         decoration: BoxDecoration(
-          color: cardColor,
+          color: cardBackgroundColor,
           image: DecorationImage(
             image: NetworkImage(item.imageUrl),
             fit: BoxFit.cover,
@@ -82,11 +85,7 @@ class _HomePageState extends State<HomePage> {
     }
 
     return GestureDetector(
-      onTap: () => Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => BrowseImagePage(item.imageUrl),
-        ),
-      ),
+      onTap: onTapAction,
       child: Card(
         child: _cardChild,
         shape: RoundedRectangleBorder(
@@ -96,13 +95,25 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
+  Function() _getOnItemTapAction(Item item) {
+    if (item == null) {
+      return null;
+    }
+
+    return () => Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => BrowseImagePage(item.imageUrl),
+          ),
+        );
+  }
 }
 
-class _Fab extends StatelessWidget {
+class _FabAssessItemGroup extends StatelessWidget {
   final void Function() dislikeCallback;
   final void Function() likeCallback;
 
-  _Fab({this.dislikeCallback, this.likeCallback});
+  _FabAssessItemGroup({this.dislikeCallback, this.likeCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -112,16 +123,32 @@ class _Fab extends StatelessWidget {
       children: <Widget>[
         FloatingActionButton(
           heroTag: 'Dislike',
-          onPressed: () => null,
+          onPressed: () => dislikeCallback != null ? dislikeCallback() : null,
           child: Icon(Icons.thumb_down),
         ),
         SizedBox(width: 12),
         FloatingActionButton(
           heroTag: 'Like',
-          onPressed: () => null,
+          onPressed: () => dislikeCallback != null ? likeCallback() : null,
           child: Icon(Icons.thumb_up),
         ),
       ],
+    );
+  }
+}
+
+class _FabNextItemGroup extends StatelessWidget {
+  /// On fab click callback.
+  final Function() onClickCallback;
+
+  _FabNextItemGroup({this.onClickCallback});
+
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      heroTag: 'Next',
+      onPressed: this.onClickCallback,
+      child: Icon(Icons.navigate_next),
     );
   }
 }

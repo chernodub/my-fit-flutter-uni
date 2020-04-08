@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:my_fit/home-page.dart';
-import 'package:my_fit/models/user.model.dart';
-import 'package:my_fit/registration-page.dart';
-import 'package:my_fit/widgets/form/form-body.dart';
-import 'package:my_fit/widgets/form/form-footer.dart';
-import 'package:my_fit/widgets/form/form-header.dart';
+import 'package:my_fit/models/user.dart';
+import 'package:my_fit/common/form/form-body.dart';
+import 'package:my_fit/common/form/form-footer.dart';
+import 'package:my_fit/common/form/form-header.dart';
 import 'package:provider/provider.dart';
 import 'package:validators/validators.dart' as Validators;
 
@@ -24,9 +22,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _navigateToHomePage() {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(builder: (context) => HomePage()),
-    );
+    Navigator.of(context).pushReplacementNamed('/');
   }
 }
 
@@ -67,10 +63,16 @@ class _LoginFormState extends State<_LoginForm> {
               TextFormField(
                 controller: _loginFieldController,
                 validator: _validateLoginField,
+                decoration: InputDecoration(
+                  hintText: 'Email',
+                ),
               ),
               TextFormField(
                 controller: _passwordFieldController,
                 validator: _validatePasswordField,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                ),
                 obscureText: true,
               )
             ],
@@ -139,10 +141,6 @@ class _LoginFormState extends State<_LoginForm> {
   }
 
   void _navigateToRegistration(BuildContext context) {
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => RegistrationPage(),
-      ),
-    );
+    Navigator.of(context).pushReplacementNamed('/registration');
   }
 }

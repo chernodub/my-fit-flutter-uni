@@ -1,8 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_fit/favorites-page.dart';
-
-import '../home-page.dart';
-import '../login-page.dart';
 
 class MyFitMainDrawer extends StatelessWidget {
   MyFitMainDrawer(BuildContext context);
@@ -33,12 +29,8 @@ class MyFitMainDrawer extends StatelessWidget {
                     onPressed: () => Navigator.of(context).pop()),
                 IconButton(
                   icon: Icon(Icons.exit_to_app),
-                  onPressed: () => Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => LoginPage(),
-                    ),
-                  ),
+                  onPressed: () =>
+                      Navigator.of(context).pushReplacementNamed('/login'),
                 ),
               ],
             ),
@@ -53,20 +45,12 @@ class MyFitMainDrawer extends StatelessWidget {
     return [
       ListTile(
         title: Text('Home page'),
-        onTap: () => Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => HomePage(),
-          ),
-        ),
+        onTap: () => Navigator.of(context).pushReplacementNamed('/'),
       ),
       ListTile(
         title: Text('Favorites'),
         leading: Icon(Icons.favorite),
-        onTap: () => Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => FavoritesPage(),
-          ),
-        ),
+        onTap: () => Navigator.of(context).pushReplacementNamed('/favorites'),
       )
     ];
   }
