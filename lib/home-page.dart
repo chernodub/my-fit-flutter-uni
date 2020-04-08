@@ -145,10 +145,17 @@ class _FabNextItemGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: 'Next',
-      onPressed: this.onClickCallback,
-      child: Icon(Icons.navigate_next),
+    return Consumer<TrainingModel>(
+      builder: (BuildContext context, TrainingModel value, Widget child) {
+        final theme = Theme.of(context);
+        final isFabDisabled = value.itemGroupToAssess == null;
+        return FloatingActionButton(
+          backgroundColor: isFabDisabled ? theme.disabledColor : null,
+          heroTag: 'Next',
+          onPressed: isFabDisabled ? null : this.onClickCallback,
+          child: Icon(Icons.navigate_next),
+        );
+      },
     );
   }
 }
