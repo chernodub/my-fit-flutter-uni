@@ -38,7 +38,7 @@ class _LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<_LoginForm> {
   /// Login form title.
-  static const _formTitle = 'Sign in';
+  static const _formTitle = 'My Fit';
 
   /// Formkey to control the form.
   final _formKey = GlobalKey<FormState>();
@@ -81,7 +81,7 @@ class _LoginFormState extends State<_LoginForm> {
             children: <Widget>[
               RaisedButton(
                 onPressed: () => _submitForm(context),
-                child: Text('OK'),
+                child: Text('Sign in'),
               ),
               OutlineButton(
                 onPressed: () => _navigateToRegistration(context),

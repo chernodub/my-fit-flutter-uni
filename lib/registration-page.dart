@@ -39,7 +39,7 @@ class _RegistrationForm extends StatefulWidget {
 
 class _RegistrationFormState extends State<_RegistrationForm> {
   /// Registration form title.
-  static const _formTitle = 'Sign up';
+  static const _formTitle = 'Sign up for My Fit';
 
   /// Form key to control form.
   final _formKey = GlobalKey<FormState>();
@@ -99,7 +99,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
             children: <Widget>[
               RaisedButton(
                 onPressed: _submitForm,
-                child: Text('Register'),
+                child: Text('Create'),
               ),
               OutlineButton(
                 onPressed: () => _navigateToLogin(context),
