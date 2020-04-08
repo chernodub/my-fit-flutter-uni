@@ -39,9 +39,11 @@ class MyFitMainDrawer extends StatelessWidget {
   }
 }
 
+/// Drawer header.
 class _MainDrawerHeader extends StatelessWidget {
-  final BuildContext context;
+  /// User.
   final User user;
+  final BuildContext context;
 
   _MainDrawerHeader({
     @required this.context,
@@ -75,7 +77,9 @@ class _MainDrawerHeader extends StatelessWidget {
   }
 }
 
+/// Profile avatar widget. Provides information about a [user].
 class _ProfileAvatar extends StatelessWidget {
+  /// User.
   final User user;
   _ProfileAvatar(this.user);
 

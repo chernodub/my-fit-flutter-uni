@@ -43,6 +43,7 @@ class MyFitApp extends StatelessWidget {
     ];
   }
 
+  /// Build home page.
   Widget _buildHomePage() {
     return ChangeNotifierProvider(
       child: HomePage(),
