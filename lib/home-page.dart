@@ -62,7 +62,7 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildItemCard(Item item) {
     final cardRadius = 8.0;
-    final cardBackgroundColor = Theme.of(context).primaryColorLight;
+    final cardBackgroundColor = Theme.of(context).splashColor;
     final onTapAction = _getOnItemTapAction(item);
 
     /// TODO refactor this logic
