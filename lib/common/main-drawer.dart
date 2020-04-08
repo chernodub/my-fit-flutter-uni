@@ -60,12 +60,15 @@ class _MainDrawerHeader extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 IconButton(
-                    icon: Icon(Icons.arrow_back),
-                    onPressed: () => Navigator.of(context).pop()),
+                  icon: Icon(Icons.close),
+                  onPressed: () => Navigator.of(context).pop(),
+                  tooltip: 'Close the menu',
+                ),
                 IconButton(
                   icon: Icon(Icons.exit_to_app),
                   onPressed: () =>
                       Navigator.of(context).pushReplacementNamed('/login'),
+                  tooltip: 'Log out',
                 ),
               ],
             ),

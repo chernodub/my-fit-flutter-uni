@@ -8,7 +8,7 @@ import 'package:my_fit/common/main-drawer.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
-  static const title = 'My Fit';
+  static const title = 'Recommendations';
   HomePage({Key key}) : super(key: key);
 
   @override
@@ -153,6 +153,7 @@ class _FabNextItemGroup extends StatelessWidget {
           backgroundColor: isFabDisabled ? theme.disabledColor : null,
           heroTag: 'Next',
           onPressed: isFabDisabled ? null : this.onClickCallback,
+          tooltip: 'Get next reccomendation',
           child: Icon(Icons.navigate_next),
         );
       },
