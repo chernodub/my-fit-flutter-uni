@@ -37,7 +37,7 @@ class UserModel extends ChangeNotifier {
     await Future.delayed(
       Duration(milliseconds: 200),
     );
-
+    _currentUser = User(login, UserMetadata());
     return AuthResult();
   }
 
@@ -48,7 +48,7 @@ class UserModel extends ChangeNotifier {
     await Future.delayed(
       Duration(milliseconds: 200),
     );
-
+    _currentUser = User(login, UserMetadata());
     return AuthResult();
   }
 }
