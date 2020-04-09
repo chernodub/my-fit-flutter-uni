@@ -73,6 +73,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
               TextFormField(
                 controller: _loginFieldController,
                 validator: _validateLoginField,
+                keyboardType: TextInputType.emailAddress,
                 decoration: InputDecoration(
                   hintText: 'Email',
                 ),
