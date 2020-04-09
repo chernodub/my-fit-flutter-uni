@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -8,6 +9,8 @@ import 'package:my_fit/entities/domain/item.dart';
 import 'package:my_fit/models/training.dart';
 import 'package:my_fit/common/main-drawer.dart';
 import 'package:provider/provider.dart';
+
+import 'common/splash-container.dart';
 
 class HomePage extends StatefulWidget {
   static const title = 'Recommendations';
@@ -173,11 +176,5 @@ class _ItemCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCardContentSkeleton() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Theme.of(context).splashColor,
-      ),
-    );
-  }
+  Widget _buildCardContentSkeleton() => SplashContainer(context: context);
 }

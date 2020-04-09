@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:my_fit/common/main-drawer.dart';
+import 'package:my_fit/common/splash-container.dart';
 import 'package:my_fit/entities/domain/item.dart';
 import 'package:my_fit/models/favorites.dart';
 import 'package:provider/provider.dart';
@@ -105,9 +106,6 @@ class _FavoriteGroupCardPreview extends StatelessWidget {
 
   /// Build the preview images for the tile.
   Widget _buildCardPreview(List<Item> items) {
-    // Number of items in a group.
-    final itemsLen = items.length;
-
     final previewItems = _buildReducedPreviewList(items);
 
     return Row(
@@ -216,9 +214,7 @@ class _FavoriteGroupCardPreviewListItem extends StatelessWidget {
 
   /// Build preview item skeleton.
   Widget _buildPreviewItemSkeleton() {
-    return Container(
-      color: Theme.of(context).splashColor,
-    );
+    return SplashContainer(context: context);
   }
 
   /// Build widget for announcing more items. Displays the number of additional items.

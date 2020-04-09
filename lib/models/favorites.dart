@@ -18,7 +18,7 @@ class FavoritesModel extends ChangeNotifier {
     notifyListeners();
 
     /// TODO: change to a request.
-    await Future.delayed(Duration(milliseconds: 1000));
+    await Future.delayed(Duration(milliseconds: 2000));
 
     final favorites = Future.value(DUMMY_ITEM_GROUPS);
 
