@@ -249,6 +249,7 @@ class _FavoriteGroupCardPreviewListItem extends StatelessWidget {
         image: NetworkImage(imageUrl),
         fit: BoxFit.cover,
       ),
+      color: Theme.of(context).splashColor,
     );
   }
 }
