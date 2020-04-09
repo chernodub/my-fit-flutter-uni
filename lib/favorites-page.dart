@@ -205,9 +205,12 @@ class _FavoriteGroupCardPreviewListItem extends StatelessWidget {
   Widget _buildPreviewItem(Item item) {
     return item == null
         ? _buildPreviewItemSkeleton()
-        : Image.network(
-            item.imageUrl,
-            fit: BoxFit.cover,
+        : Container(
+            color: Theme.of(context).splashColor,
+            child: Image.network(
+              item.imageUrl,
+              fit: BoxFit.cover,
+            ),
           );
   }
 
