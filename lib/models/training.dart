@@ -31,9 +31,4 @@ class TrainingModel extends ChangeNotifier {
 
     notifyListeners();
   }
-
-  /// Get favorite groups.
-  Future<List<ItemGroup>> getFavoriteItemGroups() async {
-    return Future.value([]);
-  }
 }

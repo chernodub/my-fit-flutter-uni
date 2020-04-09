@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:my_fit/favorites-page.dart';
 import 'package:my_fit/home-page.dart';
 import 'package:my_fit/login-page.dart';
+import 'package:my_fit/models/favorites.dart';
 import 'package:my_fit/models/training.dart';
 import 'package:my_fit/registration-page.dart';
 import 'package:provider/provider.dart';
@@ -32,7 +33,7 @@ class MyFitApp extends StatelessWidget {
           '/': (context) => _buildHomePage(),
           '/login': (context) => LoginPage(),
           '/registration': (context) => RegistrationPage(),
-          '/favorites': (context) => FavoritesPage(),
+          '/favorites': (context) => _buildFavoriteItemsPage(),
         });
   }
 
@@ -48,6 +49,14 @@ class MyFitApp extends StatelessWidget {
     return ChangeNotifierProvider(
       child: HomePage(),
       create: (BuildContext context) => TrainingModel(),
+    );
+  }
+
+  /// Favorites page.
+  Widget _buildFavoriteItemsPage() {
+    return ChangeNotifierProvider(
+      child: FavoritesPage(),
+      create: (BuildContext context) => FavoritesModel(),
     );
   }
 }
