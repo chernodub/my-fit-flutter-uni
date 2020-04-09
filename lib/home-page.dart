@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:my_fit/browse-image-page.dart';
@@ -53,59 +55,25 @@ class _HomePageState extends State<HomePage> {
   }
 
   List<Widget> _buildItemsListFromItemGroup(ItemGroup itemGroup) {
-    return itemGroup.items.map((item) => _buildItemCard(item)).toList();
+    final onItemTapCallback = (Item item) => Navigator.of(context).push(
+          MaterialPageRoute(
+              builder: (context) => BrowseImagePage(item.imageUrl)),
+        );
+    return itemGroup.items
+        .map((item) => _ItemCard(
+              context: context,
+              item: item,
+              onItemTapCallback: onItemTapCallback,
+            ))
+        .toList();
   }
 
   List<Widget> _buildItemsListSkeleton() {
-    return [null, null, null].map((item) => _buildItemCard(item)).toList();
-  }
-
-  Widget _buildItemCard(Item item) {
-    final cardRadius = 8.0;
-    final cardBackgroundColor = Theme.of(context).splashColor;
-    final onTapAction = _getOnItemTapAction(item);
-
-    /// TODO refactor this logic
-    Widget _cardChild = Container(
-      decoration: BoxDecoration(
-        color: cardBackgroundColor,
-      ),
-    );
-
-    if (item != null) {
-      _cardChild = Container(
-        decoration: BoxDecoration(
-          color: cardBackgroundColor,
-          image: DecorationImage(
-            image: NetworkImage(item.imageUrl),
-            fit: BoxFit.cover,
-          ),
-        ),
-      );
-    }
-
-    return GestureDetector(
-      onTap: onTapAction,
-      child: Card(
-        child: _cardChild,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(cardRadius),
-        ),
-        clipBehavior: Clip.hardEdge,
-      ),
-    );
-  }
-
-  Function() _getOnItemTapAction(Item item) {
-    if (item == null) {
-      return null;
-    }
-
-    return () => Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => BrowseImagePage(item.imageUrl),
-          ),
-        );
+    const maxSkeletonItems = 4;
+    final itemsNum = Random().nextInt(maxSkeletonItems) + 2;
+    return List.filled(itemsNum, null)
+        .map((item) => _ItemCard(context: context, item: item))
+        .toList();
   }
 }
 
@@ -157,6 +125,59 @@ class _FabNextItemGroup extends StatelessWidget {
           child: Icon(Icons.navigate_next),
         );
       },
+    );
+  }
+}
+
+class _ItemCard extends StatelessWidget {
+  /// On item card click callback
+  final Function(Item) onItemTapCallback;
+
+  /// Item.
+  final Item item;
+
+  /// Context.
+  final BuildContext context;
+
+  _ItemCard({
+    @required this.item,
+    @required this.context,
+    this.onItemTapCallback,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    const cardRadius = 8.0;
+
+    return Card(
+      child: item != null ? _buildCardContent() : _buildCardContentSkeleton(),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(cardRadius),
+      ),
+      clipBehavior: Clip.hardEdge,
+    );
+  }
+
+  Widget _buildCardContent() {
+    return GestureDetector(
+      onTap: () => onItemTapCallback(item),
+      child: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).splashColor,
+          image: DecorationImage(
+            image: NetworkImage(item.imageUrl),
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCardContentSkeleton() {
+    return Container(
+      decoration: BoxDecoration(
+        color: Theme.of(context).splashColor,
+      ),
     );
   }
 }
