@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:my_fit/common/main-drawer.dart';
 import 'package:my_fit/common/splash-container.dart';
+import 'package:my_fit/entities/domain/item-group.dart';
 import 'package:my_fit/entities/domain/item.dart';
 import 'package:my_fit/models/favorites.dart';
 import 'package:provider/provider.dart';
-
-import 'entities/domain/item-group.dart';
 
 class FavoritesPage extends StatefulWidget {
   @override

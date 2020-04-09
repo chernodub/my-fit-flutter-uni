@@ -1,16 +1,14 @@
-import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:my_fit/browse-image-page.dart';
+import 'package:my_fit/common/splash-container.dart';
 import 'package:my_fit/entities/domain/item-group.dart';
 import 'package:my_fit/entities/domain/item.dart';
 import 'package:my_fit/models/training.dart';
 import 'package:my_fit/common/main-drawer.dart';
+import 'package:my_fit/screens/browse-image-page.dart';
 import 'package:provider/provider.dart';
-
-import 'common/splash-container.dart';
 
 class HomePage extends StatefulWidget {
   static const title = 'Recommendations';

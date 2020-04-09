@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_fit/favorites-page.dart';
-import 'package:my_fit/home-page.dart';
-import 'package:my_fit/login-page.dart';
 import 'package:my_fit/models/favorites.dart';
 import 'package:my_fit/models/training.dart';
-import 'package:my_fit/registration-page.dart';
+import 'package:my_fit/screens/favorites-page.dart';
+import 'package:my_fit/screens/home-page.dart';
+import 'package:my_fit/screens/login-page.dart';
+import 'package:my_fit/screens/registration-page.dart';
 import 'package:provider/provider.dart';
 
 import 'models/user.dart';
@@ -47,7 +47,10 @@ class MyFitApp extends StatelessWidget {
   /// Build home page.
   Widget _buildHomePage() {
     return ChangeNotifierProvider(
-      child: HomePage(),
+      child: Consumer<UserModel>(
+        builder: (BuildContext context, UserModel value, Widget child) =>
+            value.user != null ? HomePage() : LoginPage(),
+      ),
       create: (BuildContext context) => TrainingModel(),
     );
   }
@@ -55,7 +58,10 @@ class MyFitApp extends StatelessWidget {
   /// Favorites page.
   Widget _buildFavoriteItemsPage() {
     return ChangeNotifierProvider(
-      child: FavoritesPage(),
+      child: Consumer<UserModel>(
+        builder: (BuildContext context, UserModel value, Widget child) =>
+            value.user != null ? FavoritesModel() : LoginPage(),
+      ),
       create: (BuildContext context) => FavoritesModel(),
     );
   }
