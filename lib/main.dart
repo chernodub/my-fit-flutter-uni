@@ -60,7 +60,7 @@ class MyFitApp extends StatelessWidget {
     return ChangeNotifierProvider(
       child: Consumer<UserModel>(
         builder: (BuildContext context, UserModel value, Widget child) =>
-            value.user != null ? FavoritesModel() : LoginPage(),
+            value.user != null ? FavoritesPage() : LoginPage(),
       ),
       create: (BuildContext context) => FavoritesModel(),
     );
