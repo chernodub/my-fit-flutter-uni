@@ -48,7 +48,7 @@ class _LoginFormState extends State<_LoginForm> {
   final _passwordFieldController = TextEditingController();
 
   /// Async validation result.
-  AuthResultError _errorValidationResult;
+  AuthValidationError _errorValidationResult;
 
   @override
   Widget build(BuildContext context) {

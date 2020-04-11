@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 class SplashContainer extends StatefulWidget {
   final BuildContext context;
-
-  SplashContainer({@required this.context});
+  final Widget child;
+  SplashContainer({@required this.context, this.child});
 
   @override
   State<StatefulWidget> createState() => _AnimatedSplashContainerState(context);
@@ -60,6 +60,7 @@ class _AnimatedSplashContainerState extends State<SplashContainer> {
   @override
   Widget build(BuildContext context) {
     return AnimatedContainer(
+      child: widget.child,
       decoration: BoxDecoration(
         color: Theme.of(context).splashColor,
         gradient: currentGradient,

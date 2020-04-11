@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:my_fit/entities/domain/item-group.dart';
-import 'package:my_fit/entities/domain/item.dart';
+import 'package:my_fit/models/app-config.dart';
+import 'package:http/http.dart';
 
 /// Training model.
 class TrainingModel extends ChangeNotifier {
@@ -10,25 +13,22 @@ class TrainingModel extends ChangeNotifier {
   /// Item group to assess.
   ItemGroup get itemGroupToAssess => _itemGroupToAssess;
 
-  TrainingModel() {
+  /// Http client.
+  Client httpClient = Client();
+
+  TrainingModel({this.httpClient}) {
     requestNewItemGroupToAssess();
   }
 
   /// Get item group for the user to assess.
   void requestNewItemGroupToAssess() async {
     _itemGroupToAssess = null;
-
     notifyListeners();
 
-    await Future.delayed(new Duration(seconds: 2));
+    final response =
+        await httpClient.get('${AppConfig.apiUrl}item-groups/random');
 
-    _itemGroupToAssess = ItemGroup([
-      new Item(
-          'https://www.yoox.com/images/items/38/38904665mg_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-      new Item(
-          'https://www.yoox.com/images/items/13/13449138md_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-    ]);
-
+    _itemGroupToAssess = ItemGroup.fromDto(json.decode(response.body));
     notifyListeners();
   }
 }

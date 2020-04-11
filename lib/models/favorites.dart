@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
 import 'package:my_fit/entities/domain/item-group.dart';
-import 'package:my_fit/entities/domain/item.dart';
 
 class FavoritesModel extends ChangeNotifier {
   List<ItemGroup> _favorites;
 
+  /// Favorites.
   List<ItemGroup> get favorites => _favorites;
 
-  FavoritesModel() {
+  /// Http client.
+  Client httpClient = Client();
+
+  FavoritesModel({this.httpClient}) {
     askForFavoriteGroups();
   }
 
@@ -33,29 +37,4 @@ class FavoritesModel extends ChangeNotifier {
   }
 }
 
-const DUMMY_ITEM_GROUPS = [
-  ItemGroup([
-    Item(
-        'https://www.yoox.com/images/items/42/42666373nf_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-    Item(
-        'https://www.yoox.com/images/items/41/41926224rc_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-    Item(
-        'https://www.yoox.com/images/items/42/42792445wi_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-  ]),
-  ItemGroup([
-    Item(
-        'https://www.yoox.com/images/items/41/41956461vm_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-    Item(
-        'https://www.yoox.com/images/items/42/42666373nf_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-    Item(
-        'https://www.yoox.com/images/items/12/12312716fq_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-    Item(
-        'https://www.yoox.com/images/items/13/13315224ll_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-  ]),
-  ItemGroup([
-    Item(
-        'https://www.yoox.com/images/items/12/12312716fq_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-    Item(
-        'https://www.yoox.com/images/items/13/13315224ll_14_f.jpg?width=1571&height=2000&impolicy=crop&gravity=Center'),
-  ]),
-];
+const DUMMY_ITEM_GROUPS = <ItemGroup>[];

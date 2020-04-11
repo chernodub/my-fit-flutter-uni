@@ -50,7 +50,7 @@ class _RegistrationFormState extends State<_RegistrationForm> {
   final _passwordFieldController = TextEditingController();
 
   /// Async validation error.
-  AuthResultError _authResultError;
+  AuthValidationError _authResultError;
 
   @override
   void dispose() {
@@ -145,7 +145,8 @@ class _RegistrationFormState extends State<_RegistrationForm> {
   /// Submit form action.
   Future<void> _submitForm() async {
     if (_formKey.currentState.validate()) {
-      final result = await Provider.of<UserModel>(context, listen: false).login(
+      final result =
+          await Provider.of<UserModel>(context, listen: false).register(
         _loginFieldController.value.text,
         _passwordFieldController.value.text,
       );

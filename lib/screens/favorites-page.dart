@@ -59,7 +59,23 @@ class _FavoritesPageState extends State<FavoritesPage> {
     );
   }
 
-  ListView _buildEmptyList() {}
+  ListView _buildEmptyList() {
+    return ListView(
+      children: <Widget>[
+        Card(
+          child: SplashContainer(
+            context: context,
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              child: Center(
+                child: Text('No favorite items'),
+              ),
+            ),
+          ),
+        )
+      ],
+    );
+  }
 }
 
 class _FavoriteGroupCard extends StatelessWidget {

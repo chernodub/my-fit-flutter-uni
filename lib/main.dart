@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'package:http_interceptor/http_client_with_interceptor.dart';
+import 'package:my_fit/common/auth-interceptor.dart';
 import 'package:my_fit/models/favorites.dart';
 import 'package:my_fit/models/training.dart';
 import 'package:my_fit/screens/favorites-page.dart';
@@ -22,19 +25,32 @@ class MyFitApp extends StatelessWidget {
 
   /// Build material app with page.
   Widget _buildMaterialApp() {
-    return MaterialApp(
-        title: 'My Fit app',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
-        ),
-        darkTheme: ThemeData.dark(),
-        initialRoute: '/',
-        routes: {
-          '/': (context) => _buildHomePage(),
-          '/login': (context) => LoginPage(),
-          '/registration': (context) => RegistrationPage(),
-          '/favorites': (context) => _buildFavoriteItemsPage(),
-        });
+    return Consumer<UserModel>(
+      builder: (BuildContext context, UserModel value, Widget child) {
+        Client interceptedClient =
+            HttpClientWithInterceptor.build(interceptors: [
+          AuthInterceptor(value.user),
+        ]);
+
+        return MaterialApp(
+            title: 'My Fit app',
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            darkTheme: ThemeData.dark(),
+            initialRoute: '/',
+            routes: {
+              '/': (context) => value.user != null
+                  ? _buildHomePage(interceptedClient)
+                  : LoginPage(),
+              '/login': (context) => LoginPage(),
+              '/registration': (context) => RegistrationPage(),
+              '/favorites': (context) => value.user != null
+                  ? _buildFavoriteItemsPage(interceptedClient)
+                  : LoginPage(),
+            });
+      },
+    );
   }
 
   /// Get list of global providers.
@@ -45,24 +61,22 @@ class MyFitApp extends StatelessWidget {
   }
 
   /// Build home page.
-  Widget _buildHomePage() {
+  Widget _buildHomePage(Client client) {
     return ChangeNotifierProvider(
-      child: Consumer<UserModel>(
-        builder: (BuildContext context, UserModel value, Widget child) =>
-            value.user != null ? HomePage() : LoginPage(),
+      child: HomePage(),
+      create: (BuildContext context) => TrainingModel(
+        httpClient: client,
       ),
-      create: (BuildContext context) => TrainingModel(),
     );
   }
 
   /// Favorites page.
-  Widget _buildFavoriteItemsPage() {
+  Widget _buildFavoriteItemsPage(Client client) {
     return ChangeNotifierProvider(
-      child: Consumer<UserModel>(
-        builder: (BuildContext context, UserModel value, Widget child) =>
-            value.user != null ? FavoritesPage() : LoginPage(),
+      child: FavoritesPage(),
+      create: (BuildContext context) => FavoritesModel(
+        httpClient: client,
       ),
-      create: (BuildContext context) => FavoritesModel(),
     );
   }
 }
