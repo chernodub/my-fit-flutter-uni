@@ -9,7 +9,8 @@ class AuthInterceptor extends InterceptorContract {
 
   @override
   Future<RequestData> interceptRequest({RequestData data}) async {
-    data.headers['Authorization'] = 'Token ${user.meta.token}';
+    data.headers['Authorization'] =
+        user != null ? 'Token ${user.meta.token}' : null;
     return data;
   }
 

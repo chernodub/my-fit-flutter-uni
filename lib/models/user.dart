@@ -47,6 +47,10 @@ class User {
   factory User.fromDto(Map<String, dynamic> json) {
     return User(json['email'], UserMetadata(token: json['token']));
   }
+
+  String toString() {
+    return '$email;${meta.token}';
+  }
 }
 
 /// Contains user metadata (e.g. token and other).

@@ -31,4 +31,21 @@ class TrainingModel extends ChangeNotifier {
     _itemGroupToAssess = ItemGroup.fromDto(json.decode(response.body));
     notifyListeners();
   }
+
+  /// Give an [assessment] to the [itemGroupToAssess].
+  Future<void> assessItemGroup(int assessment) async {
+    final body = {
+      "bunch": itemGroupToAssess.id,
+      "value": assessment,
+    };
+
+    await httpClient.post(
+      '${AppConfig.apiUrl}assess/',
+      body: jsonEncode(body),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    );
+    return requestNewItemGroupToAssess();
+  }
 }

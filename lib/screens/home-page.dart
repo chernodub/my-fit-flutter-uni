@@ -33,8 +33,9 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildFab(BuildContext context) {
     final training = Provider.of<TrainingModel>(context);
-    return _FabNextItemGroup(
-      onClickCallback: () => training.requestNewItemGroupToAssess(),
+    return _FabAssessItemGroup(
+      onLikeCallback: () => training.assessItemGroup(2),
+      onDislikeCallback: () => training.assessItemGroup(0),
     );
   }
 
@@ -79,30 +80,39 @@ class _HomePageState extends State<HomePage> {
 }
 
 class _FabAssessItemGroup extends StatelessWidget {
-  final void Function() dislikeCallback;
-  final void Function() likeCallback;
+  final void Function() onDislikeCallback;
+  final void Function() onLikeCallback;
 
-  _FabAssessItemGroup({this.dislikeCallback, this.likeCallback});
+  _FabAssessItemGroup({this.onDislikeCallback, this.onLikeCallback});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: <Widget>[
-        FloatingActionButton(
-          heroTag: 'Dislike',
-          onPressed: () => dislikeCallback != null ? dislikeCallback() : null,
-          child: Icon(Icons.thumb_down),
-        ),
-        SizedBox(width: 12),
-        FloatingActionButton(
-          heroTag: 'Like',
-          onPressed: () => dislikeCallback != null ? likeCallback() : null,
-          child: Icon(Icons.thumb_up),
-        ),
-      ],
-    );
+    return Consumer<TrainingModel>(
+        builder: (BuildContext context, TrainingModel value, Widget child) {
+      final theme = Theme.of(context);
+      final isFabDisabled = value.itemGroupToAssess == null;
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        mainAxisAlignment: MainAxisAlignment.end,
+        children: <Widget>[
+          FloatingActionButton(
+            heroTag: 'Dislike',
+            tooltip: 'Dislike outfit',
+            backgroundColor: isFabDisabled ? theme.disabledColor : null,
+            onPressed: isFabDisabled ? null : onDislikeCallback,
+            child: Icon(Icons.thumb_down),
+          ),
+          SizedBox(width: 12),
+          FloatingActionButton(
+            heroTag: 'Like',
+            tooltip: 'Like outfit',
+            backgroundColor: isFabDisabled ? theme.disabledColor : null,
+            onPressed: isFabDisabled ? null : onLikeCallback,
+            child: Icon(Icons.thumb_up),
+          ),
+        ],
+      );
+    });
   }
 }
 

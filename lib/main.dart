@@ -27,27 +27,30 @@ class MyFitApp extends StatelessWidget {
   Widget _buildMaterialApp() {
     return Consumer<UserModel>(
       builder: (BuildContext context, UserModel value, Widget child) {
-        Client interceptedClient =
-            HttpClientWithInterceptor.build(interceptors: [
-          AuthInterceptor(value.user),
-        ]);
-
         return MaterialApp(
             title: 'My Fit app',
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
             darkTheme: ThemeData.dark(),
-            initialRoute: '/',
+            initialRoute: value.user != null ? '/' : '/login',
             routes: {
-              '/': (context) => value.user != null
-                  ? _buildHomePage(interceptedClient)
-                  : LoginPage(),
+              '/': (context) {
+                final homePageClient =
+                    HttpClientWithInterceptor.build(interceptors: [
+                  AuthInterceptor(value.user),
+                ]);
+                return _buildHomePage(homePageClient);
+              },
               '/login': (context) => LoginPage(),
               '/registration': (context) => RegistrationPage(),
-              '/favorites': (context) => value.user != null
-                  ? _buildFavoriteItemsPage(interceptedClient)
-                  : LoginPage(),
+              '/favorites': (context) {
+                final favoritesPageClient =
+                    HttpClientWithInterceptor.build(interceptors: [
+                  AuthInterceptor(value.user),
+                ]);
+                return _buildFavoriteItemsPage(favoritesPageClient);
+              }
             });
       },
     );
