@@ -16,8 +16,9 @@ class FormResult<SuccessResult, ErrorResult> {
 
 String extractValidationError(String formPath, dynamic validationObj) {
   final List<String> path = formPath.split('.');
+  // TODO Refactor this logic
   return path.length == 1
-      ? validationObj[path[0]]
+      ? validationObj[path[0]] != null ? validationObj[path[0]][0] : null
       : extractValidationError(path.sublist(1).join('.'), validationObj);
 }
 

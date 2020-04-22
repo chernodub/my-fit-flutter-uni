@@ -33,16 +33,10 @@ class MyFitApp extends StatelessWidget {
               primarySwatch: Colors.blue,
             ),
             darkTheme: ThemeData.dark(),
-            initialRoute: value.user != null ? '/' : '/login',
+            initialRoute: '/',
             routes: {
-              '/': (context) {
-                final homePageClient =
-                    HttpClientWithInterceptor.build(interceptors: [
-                  AuthInterceptor(value.user),
-                ]);
-                return _buildHomePage(homePageClient);
-              },
-              '/login': (context) => LoginPage(),
+              '/': (context) => _buildMainRoute(context, value.user),
+              '/login': _buildLoginPage,
               '/registration': (context) => RegistrationPage(),
               '/favorites': (context) {
                 final favoritesPageClient =
@@ -54,6 +48,21 @@ class MyFitApp extends StatelessWidget {
             });
       },
     );
+  }
+
+  Widget _buildMainRoute(BuildContext context, User user) {
+    if (user == null) {
+      return _buildLoginPage(context);
+    }
+
+    final homePageClient = HttpClientWithInterceptor.build(interceptors: [
+      AuthInterceptor(user),
+    ]);
+    return _buildHomePage(homePageClient);
+  }
+
+  Widget _buildLoginPage(BuildContext context) {
+    return LoginPage();
   }
 
   /// Get list of global providers.
