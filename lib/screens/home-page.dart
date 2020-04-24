@@ -7,18 +7,26 @@ import 'package:my_fit/entities/domain/item-group.dart';
 import 'package:my_fit/entities/domain/item.dart';
 import 'package:my_fit/models/training.dart';
 import 'package:my_fit/common/main-drawer.dart';
-import 'package:my_fit/screens/browse-image-page.dart';
+import 'package:my_fit/screens/browse-item-page.dart';
 import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static const title = 'Recommendations';
-  HomePage({Key key}) : super(key: key);
+
+  /// Item group to display
+  final ItemGroup itemGroup;
+
+  HomePage({Key key, this.itemGroup}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
+  get _itemGroupPresented {
+    return widget.itemGroup != null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,8 +34,8 @@ class _HomePageState extends State<HomePage> {
         title: Text(HomePage.title),
       ),
       body: _buildBody(),
-      drawer: MyFitMainDrawer(context),
-      floatingActionButton: _buildFab(context),
+      drawer: !_itemGroupPresented ? MyFitMainDrawer(context) : null,
+      floatingActionButton: !_itemGroupPresented ? _buildFab(context) : null,
     );
   }
 
@@ -40,34 +48,55 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBody() {
-    return Consumer<TrainingModel>(
-      builder: (_, model, __) => _buildGrid(
-        model.itemGroupToAssess != null
-            ? _buildItemsListFromItemGroup(model.itemGroupToAssess)
-            : _buildItemsListSkeleton(),
-      ),
-    );
+    return _itemGroupPresented
+        ? _buildList(_buildItemsListFromItemGroup(widget.itemGroup))
+        : Consumer<TrainingModel>(
+            builder: (_, model, __) => _buildList(
+              model.itemGroupToAssess != null
+                  ? _buildItemsListFromItemGroup(model.itemGroupToAssess)
+                  : _buildItemsListSkeleton(),
+            ),
+          );
   }
 
-  GridView _buildGrid(List<Widget> children) {
-    return GridView.count(
-      crossAxisCount: 2,
-      children: children,
-    );
+  ListView _buildList(List<Widget> children) {
+    return ListView(children: children);
   }
 
   List<Widget> _buildItemsListFromItemGroup(ItemGroup itemGroup) {
     final onItemTapCallback = (Item item) => Navigator.of(context).push(
-          MaterialPageRoute(
-              builder: (context) => BrowseImagePage(item.imageUrl)),
+          MaterialPageRoute(builder: (context) => BrowseItemPage(item)),
         );
-    return itemGroup.items
-        .map((item) => _ItemCard(
-              context: context,
-              item: item,
-              onItemTapCallback: onItemTapCallback,
-            ))
-        .toList();
+
+    /// TODO (Viktor C): Improve the logic, now it is only for 3 items
+    return [
+      Container(
+        height: 400,
+        child: _ItemCard(
+          context: context,
+          item: itemGroup.items[0],
+          onItemTapCallback: onItemTapCallback,
+        ),
+      ),
+      GridView.count(
+          crossAxisCount: 2,
+          shrinkWrap: true,
+          children: itemGroup.items
+              .sublist(1, itemGroup.items.length)
+              .map((item) => _ItemCard(
+                    context: context,
+                    item: item,
+                    onItemTapCallback: onItemTapCallback,
+                  ))
+              .toList())
+    ];
+    // return itemGroup.items
+    //     .map((item) => _ItemCard(
+    //           context: context,
+    //           item: item,
+    //           onItemTapCallback: onItemTapCallback,
+    //         ))
+    //     .toList();
   }
 
   List<Widget> _buildItemsListSkeleton() {

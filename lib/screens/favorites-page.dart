@@ -8,6 +8,7 @@ import 'package:my_fit/common/splash-container.dart';
 import 'package:my_fit/entities/domain/item-group.dart';
 import 'package:my_fit/entities/domain/item.dart';
 import 'package:my_fit/models/favorites.dart';
+import 'package:my_fit/screens/home-page.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesPage extends StatefulWidget {
@@ -44,7 +45,14 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
     return ListView(
       children: favorites
-          .map((itemGroup) => _FavoriteGroupCard(context, itemGroup))
+          .map((itemGroup) => _FavoriteGroupCard(
+                context,
+                itemGroup,
+                onClickCallback: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) => HomePage(itemGroup: itemGroup)),
+                ),
+              ))
           .toList(),
     );
   }
@@ -54,7 +62,10 @@ class _FavoritesPageState extends State<FavoritesPage> {
     final itemsNum = Random().nextInt(maxSkeletonItems) + 1;
     return ListView(
       children: List.filled(itemsNum, null)
-          .map((itemGroup) => _FavoriteGroupCard(context, itemGroup))
+          .map((itemGroup) => _FavoriteGroupCard(
+                context,
+                itemGroup,
+              ))
           .toList(),
     );
   }
@@ -82,9 +93,12 @@ class _FavoriteGroupCard extends StatelessWidget {
   /// Item group to preview.
   final ItemGroup itemGroup;
 
+  /// On click callback.
+  final Function() onClickCallback;
+
   final BuildContext context;
 
-  _FavoriteGroupCard(this.context, this.itemGroup);
+  _FavoriteGroupCard(this.context, this.itemGroup, {this.onClickCallback});
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +108,15 @@ class _FavoriteGroupCard extends StatelessWidget {
         child: Column(
           children: <Widget>[
             _FavoriteGroupCardPreview(context, itemGroup),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: <Widget>[
+                MaterialButton(
+                  onPressed: onClickCallback,
+                  child: Text('More'),
+                ),
+              ],
+            )
           ],
         ),
       ),
@@ -210,7 +233,7 @@ class _FavoriteGroupCardPreviewListItem extends StatelessWidget {
         : _buildPreviewItem(item);
     return Container(
       child: previewItem,
-      height: 135,
+      height: 170,
     );
   }
 
