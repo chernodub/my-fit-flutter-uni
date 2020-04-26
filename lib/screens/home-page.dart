@@ -31,11 +31,14 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(HomePage.title),
+        title: Text(
+          HomePage.title,
+        ),
       ),
       body: _buildBody(),
       drawer: !_itemGroupPresented ? MyFitMainDrawer(context) : null,
       floatingActionButton: !_itemGroupPresented ? _buildFab(context) : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 
@@ -70,12 +73,15 @@ class _HomePageState extends State<HomePage> {
 
     /// TODO (Viktor C): Improve the logic, now it is only for 3 items
     return [
-      Container(
-        height: 400,
-        child: _ItemCard(
-          context: context,
-          item: itemGroup.items[0],
-          onItemTapCallback: onItemTapCallback,
+      Center(
+        child: Container(
+          width: 250,
+          height: 300,
+          child: _ItemCard(
+            context: context,
+            item: itemGroup.items[0],
+            onItemTapCallback: onItemTapCallback,
+          ),
         ),
       ),
       GridView.count(
@@ -111,7 +117,7 @@ class _HomePageState extends State<HomePage> {
 class _FabAssessItemGroup extends StatelessWidget {
   final void Function() onDislikeCallback;
   final void Function() onLikeCallback;
-
+  static const _fabSize = 75.0;
   _FabAssessItemGroup({this.onDislikeCallback, this.onLikeCallback});
 
   @override
@@ -120,26 +126,36 @@ class _FabAssessItemGroup extends StatelessWidget {
         builder: (BuildContext context, TrainingModel value, Widget child) {
       final theme = Theme.of(context);
       final isFabDisabled = value.itemGroupToAssess == null;
-      return Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: <Widget>[
-          FloatingActionButton(
-            heroTag: 'Dislike',
-            tooltip: 'Dislike outfit',
-            backgroundColor: isFabDisabled ? theme.disabledColor : null,
-            onPressed: isFabDisabled ? null : onDislikeCallback,
-            child: Icon(Icons.thumb_down),
-          ),
-          SizedBox(width: 12),
-          FloatingActionButton(
-            heroTag: 'Like',
-            tooltip: 'Like outfit',
-            backgroundColor: isFabDisabled ? theme.disabledColor : null,
-            onPressed: isFabDisabled ? null : onLikeCallback,
-            child: Icon(Icons.thumb_up),
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Container(
+              height: _fabSize,
+              width: _fabSize,
+              child: FloatingActionButton(
+                heroTag: 'Dislike',
+                tooltip: 'Dislike outfit',
+                backgroundColor: isFabDisabled ? theme.disabledColor : null,
+                onPressed: isFabDisabled ? null : onDislikeCallback,
+                child: Icon(Icons.thumb_down),
+              ),
+            ),
+            SizedBox(width: 20),
+            Container(
+              height: _fabSize,
+              width: _fabSize,
+              child: FloatingActionButton(
+                heroTag: 'Like',
+                tooltip: 'Like outfit',
+                backgroundColor: isFabDisabled ? theme.disabledColor : null,
+                onPressed: isFabDisabled ? null : onLikeCallback,
+                child: Icon(Icons.thumb_up),
+              ),
+            ),
+          ],
+        ),
       );
     });
   }
@@ -189,12 +205,11 @@ class _ItemCard extends StatelessWidget {
   Widget build(BuildContext context) {
     const cardRadius = 8.0;
 
-    return Card(
-      child: item != null ? _buildCardContent() : _buildCardContentSkeleton(),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(cardRadius),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Container(
+        child: item != null ? _buildCardContent() : _buildCardContentSkeleton(),
       ),
-      clipBehavior: Clip.hardEdge,
     );
   }
 

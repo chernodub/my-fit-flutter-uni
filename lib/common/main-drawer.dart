@@ -26,13 +26,31 @@ class MyFitMainDrawer extends StatelessWidget {
   List<ListTile> _buildNavigationList(BuildContext context) {
     return [
       ListTile(
-        title: Text('Recommendations'),
-        leading: Icon(Icons.all_inclusive),
+        title: Text(
+          'Recommendations',
+          style: TextStyle(
+            fontSize: 22,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        leading: Icon(
+          Icons.all_inclusive,
+          color: Theme.of(context).primaryColor,
+        ),
         onTap: () => Navigator.of(context).pushReplacementNamed('/'),
       ),
       ListTile(
-        title: Text('Favorites'),
-        leading: Icon(Icons.favorite),
+        title: Text(
+          'Favorites',
+          style: TextStyle(
+            fontSize: 22,
+            color: Theme.of(context).primaryColor,
+          ),
+        ),
+        leading: Icon(
+          Icons.favorite,
+          color: Theme.of(context).primaryColor,
+        ),
         onTap: () => Navigator.of(context).pushReplacementNamed('/favorites'),
       )
     ];
@@ -61,11 +79,13 @@ class _MainDrawerHeader extends StatelessWidget {
               children: <Widget>[
                 IconButton(
                   icon: Icon(Icons.close),
+                  color: Theme.of(context).primaryColor,
                   onPressed: () => Navigator.of(context).pop(),
                   tooltip: 'Close the menu',
                 ),
                 IconButton(
                   icon: Icon(Icons.exit_to_app),
+                  color: Theme.of(context).primaryColor,
                   onPressed: () =>
                       Navigator.of(context).pushReplacementNamed('/login'),
                   tooltip: 'Log out',
@@ -94,13 +114,14 @@ class _ProfileAvatar extends StatelessWidget {
         Container(
           child: Icon(
             Icons.person,
-            color: Theme.of(context).iconTheme.color,
+            size: 30,
+            color: Theme.of(context).primaryColor,
           ),
-          width: 50,
-          height: 50,
+          width: 60,
+          height: 60,
           decoration: BoxDecoration(
             color: Theme.of(context).splashColor,
-            borderRadius: BorderRadius.circular(50),
+            borderRadius: BorderRadius.circular(60),
           ),
         ),
         SizedBox(
@@ -109,6 +130,9 @@ class _ProfileAvatar extends StatelessWidget {
         Text(
           user != null ? user.email : 'Not logged',
           overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Theme.of(context).primaryColor,
+          ),
         ),
       ],
     );

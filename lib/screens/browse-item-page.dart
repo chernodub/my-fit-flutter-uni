@@ -54,9 +54,12 @@ class BrowseItemPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(10.0),
             child: Text(
               item.itemDescription,
+              style: TextStyle(
+                fontSize: 18,
+              ),
             ),
           ),
           SizedBox(

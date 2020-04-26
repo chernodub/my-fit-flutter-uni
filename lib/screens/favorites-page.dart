@@ -102,7 +102,17 @@ class _FavoriteGroupCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Theme.of(context).primaryColorLight,
+            spreadRadius: 7,
+            blurRadius: 10,
+          ),
+        ],
+        color: Colors.white,
+      ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -113,6 +123,8 @@ class _FavoriteGroupCard extends StatelessWidget {
               children: <Widget>[
                 MaterialButton(
                   onPressed: onClickCallback,
+                  color: Theme.of(context).primaryColor,
+                  textColor: Colors.white,
                   child: Text('More'),
                 ),
               ],

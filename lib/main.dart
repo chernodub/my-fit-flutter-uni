@@ -31,6 +31,35 @@ class MyFitApp extends StatelessWidget {
             title: 'My Fit app',
             theme: ThemeData(
               primarySwatch: Colors.blue,
+              scaffoldBackgroundColor: Colors.white,
+              backgroundColor: Color.fromARGB(1, 255, 255, 255),
+              inputDecorationTheme: InputDecorationTheme(
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
+              ),
+              appBarTheme: AppBarTheme(
+                color: Color.fromARGB(1, 255, 255, 255),
+                elevation: 0,
+                brightness: Brightness.light,
+                textTheme: TextTheme(
+                  title: TextStyle(
+                    color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 26,
+                  ),
+                ),
+                iconTheme: IconThemeData(
+                  size: 50,
+                  color: Colors.blue,
+                ),
+                actionsIconTheme: IconThemeData(
+                  size: 50,
+                  color: Colors.blue,
+                ),
+              ),
             ),
             darkTheme: ThemeData.dark(),
             initialRoute: '/',

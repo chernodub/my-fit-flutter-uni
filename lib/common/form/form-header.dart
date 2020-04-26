@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 
 class FormHeader extends StatelessWidget {
   /// Header text.
@@ -10,11 +11,15 @@ class FormHeader extends StatelessWidget {
   Widget build(BuildContext context) {
     final headerStyle = TextStyle(
       fontWeight: FontWeight.bold,
-      fontSize: 20,
+      fontSize: 70,
+      color: Theme.of(context).primaryColor,
     );
-    return Text(
-      text,
-      style: headerStyle,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 30.0),
+      child: Text(
+        text.toUpperCase(),
+        style: headerStyle,
+      ),
     );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:my_fit/common/splash-container.dart';
 import 'package:my_fit/models/user.dart';
 import 'package:my_fit/common/form/form-body.dart';
 import 'package:my_fit/common/form/form-footer.dart';
@@ -15,8 +16,11 @@ class _RegistrationPageState extends State<RegistrationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: _RegistrationForm(_navigateToHomePage),
+      body: SplashContainer(
+        context: context,
+        child: Center(
+          child: _RegistrationForm(_navigateToHomePage),
+        ),
       ),
     );
   }
@@ -98,13 +102,34 @@ class _RegistrationFormState extends State<_RegistrationForm> {
           ),
           FormFooter(
             children: <Widget>[
-              RaisedButton(
-                onPressed: _submitForm,
-                child: Text('Create'),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: RaisedButton(
+                  color: Theme.of(context).primaryColor,
+                  onPressed: () => _submitForm(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12.0,
+                      horizontal: 20.0,
+                    ),
+                    child: Text(
+                      'Sign up',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              OutlineButton(
+              MaterialButton(
                 onPressed: () => _navigateToLogin(context),
-                child: Text('I already have an acount'),
+                child: Text(
+                  'I already have an account',
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                ),
               )
             ],
           ),
