@@ -3,50 +3,32 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class SplashContainer extends StatefulWidget {
-  final BuildContext context;
   final Widget child;
-  SplashContainer({@required this.context, this.child});
+  SplashContainer({this.child});
 
   @override
-  State<StatefulWidget> createState() => _AnimatedSplashContainerState(context);
+  State<StatefulWidget> createState() => _AnimatedSplashContainerState();
 }
 
 class _AnimatedSplashContainerState extends State<SplashContainer> {
   final animationDuration = Duration(milliseconds: 1000);
   final curve = Curves.easeInOutCubic;
+  List<Gradient> gradientOptions;
   Gradient currentGradient;
 
   Timer timer;
 
-  _AnimatedSplashContainerState(BuildContext context) {
-    final theme = Theme.of(context);
-
-    /// TODO refactor this logic
-    final gradientOptions = [
-      LinearGradient(colors: [
-        theme.splashColor,
-        theme.splashColor,
-        theme.splashColor,
-        theme.splashColor,
-        theme.splashColor,
-      ]),
-      LinearGradient(colors: [
-        theme.accentColor,
-        theme.splashColor,
-        theme.splashColor,
-        theme.splashColor,
-        theme.accentColor,
-      ]),
-    ];
-
+  _AnimatedSplashContainerState() {
     int currentIdx = 0;
-    currentGradient = gradientOptions[currentIdx];
 
     timer = Timer.periodic(
       animationDuration,
       (_) => setState(() {
+        if (gradientOptions == null) {
+          return;
+        }
         currentGradient =
-            gradientOptions[++currentIdx % gradientOptions.length];
+            gradientOptions[currentIdx++ % gradientOptions.length];
       }),
     );
   }
@@ -59,6 +41,24 @@ class _AnimatedSplashContainerState extends State<SplashContainer> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    gradientOptions = [
+      LinearGradient(colors: [
+        theme.splashColor,
+        theme.splashColor,
+        theme.splashColor,
+        theme.splashColor,
+        theme.splashColor,
+      ]),
+      LinearGradient(colors: [
+        theme.primaryColorLight,
+        theme.splashColor,
+        theme.splashColor,
+        theme.splashColor,
+        theme.primaryColorLight,
+      ]),
+    ];
     return AnimatedContainer(
       child: widget.child,
       decoration: BoxDecoration(

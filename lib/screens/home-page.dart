@@ -13,20 +13,13 @@ import 'package:provider/provider.dart';
 class HomePage extends StatefulWidget {
   static const title = 'Recommendations';
 
-  /// Item group to display
-  final ItemGroup itemGroup;
-
-  HomePage({Key key, this.itemGroup}) : super(key: key);
+  HomePage({Key key}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  get _itemGroupPresented {
-    return widget.itemGroup != null;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,8 +27,8 @@ class _HomePageState extends State<HomePage> {
         title: Text(HomePage.title),
       ),
       body: _buildBody(),
-      drawer: !_itemGroupPresented ? MyFitMainDrawer(context) : null,
-      floatingActionButton: !_itemGroupPresented ? _buildFab(context) : null,
+      drawer: MyFitMainDrawer(context),
+      floatingActionButton: _buildFab(context),
     );
   }
 
@@ -48,19 +41,16 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildBody() {
-    return _itemGroupPresented
-        ? _buildList(_buildItemsListFromItemGroup(widget.itemGroup))
-        : Consumer<TrainingModel>(
-            builder: (_, model, __) => _buildList(
-              model.itemGroupToAssess != null
-                  ? _buildItemsListFromItemGroup(model.itemGroupToAssess)
-                  : _buildItemsListSkeleton(),
-            ),
-          );
+    return Consumer<TrainingModel>(
+      builder: (_, model, __) => _ItemGroupContainer(),
+    );
   }
 
   ListView _buildList(List<Widget> children) {
-    return ListView(children: children);
+    return ListView(
+      children: children,
+      primary: true,
+    );
   }
 
   List<Widget> _buildItemsListFromItemGroup(ItemGroup itemGroup) {
@@ -68,12 +58,10 @@ class _HomePageState extends State<HomePage> {
           MaterialPageRoute(builder: (context) => BrowseItemPage(item)),
         );
 
-    /// TODO (Viktor C): Improve the logic, now it is only for 3 items
     return [
       Container(
         height: 400,
         child: _ItemCard(
-          context: context,
           item: itemGroup.items[0],
           onItemTapCallback: onItemTapCallback,
         ),
@@ -81,10 +69,10 @@ class _HomePageState extends State<HomePage> {
       GridView.count(
           crossAxisCount: 2,
           shrinkWrap: true,
+          primary: false,
           children: itemGroup.items
               .sublist(1, itemGroup.items.length)
               .map((item) => _ItemCard(
-                    context: context,
                     item: item,
                     onItemTapCallback: onItemTapCallback,
                   ))
@@ -103,11 +91,12 @@ class _HomePageState extends State<HomePage> {
     const maxSkeletonItems = 4;
     final itemsNum = Random().nextInt(maxSkeletonItems) + 2;
     return List.filled(itemsNum, null)
-        .map((item) => _ItemCard(context: context, item: item))
+        .map((item) => _ItemCard(item: item))
         .toList();
   }
 }
 
+/// TODO remove fabs at all
 class _FabAssessItemGroup extends StatelessWidget {
   final void Function() onDislikeCallback;
   final void Function() onLikeCallback;
@@ -169,6 +158,64 @@ class _FabNextItemGroup extends StatelessWidget {
   }
 }
 
+class _ItemGroupContainer extends StatefulWidget {
+  final bool shouldWrap;
+  final ItemGroup itemGroup;
+  _ItemGroupContainer({
+    this.shouldWrap = false,
+    this.itemGroup,
+  });
+
+  @override
+  State<StatefulWidget> createState() => _ItemGroupContainerState();
+}
+
+class _ItemGroupContainerState extends State<_ItemGroupContainer> {
+  final defaultItemSize = 150.0;
+  final primaryItemHeight = 400.0;
+  final animationDuration = Duration(milliseconds: 200);
+
+  @override
+  Widget build(BuildContext context) {
+    final items =
+        widget.itemGroup != null ? widget.itemGroup.items : [null, null, null];
+    return AnimatedContainer(
+      child: ListView(
+        primary: true,
+        children: [
+          AnimatedContainer(
+            duration: animationDuration,
+            height: widget.shouldWrap ? defaultItemSize : primaryItemHeight,
+            width: defaultItemSize,
+            child: _ItemCard(
+              item: items[0],
+            ),
+          ),
+          GridView.count(
+            crossAxisCount: 2,
+            shrinkWrap: true,
+            primary: false,
+            children: items
+                .sublist(1)
+                .map(
+                  (i) => AnimatedContainer(
+                    child: _ItemCard(
+                      item: i,
+                    ),
+                    duration: animationDuration,
+                    width: defaultItemSize,
+                  ),
+                )
+                .toList(),
+          )
+        ],
+      ),
+      transform: widget.shouldWrap ? (Matrix4.identity()..scale(0.5)) : null,
+      duration: animationDuration,
+    );
+  }
+}
+
 class _ItemCard extends StatelessWidget {
   /// On item card click callback
   final Function(Item) onItemTapCallback;
@@ -176,12 +223,8 @@ class _ItemCard extends StatelessWidget {
   /// Item.
   final Item item;
 
-  /// Context.
-  final BuildContext context;
-
   _ItemCard({
     @required this.item,
-    @required this.context,
     this.onItemTapCallback,
   });
 
@@ -190,7 +233,9 @@ class _ItemCard extends StatelessWidget {
     const cardRadius = 8.0;
 
     return Card(
-      child: item != null ? _buildCardContent() : _buildCardContentSkeleton(),
+      child: item != null
+          ? _buildCardContent(context)
+          : _buildCardContentSkeleton(),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(cardRadius),
       ),
@@ -198,7 +243,7 @@ class _ItemCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCardContent() {
+  Widget _buildCardContent(BuildContext context) {
     return GestureDetector(
       onTap: () => onItemTapCallback(item),
       child: Container(
@@ -213,5 +258,5 @@ class _ItemCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCardContentSkeleton() => SplashContainer(context: context);
+  Widget _buildCardContentSkeleton() => SplashContainer();
 }

@@ -8,7 +8,6 @@ import 'package:my_fit/common/splash-container.dart';
 import 'package:my_fit/entities/domain/item-group.dart';
 import 'package:my_fit/entities/domain/item.dart';
 import 'package:my_fit/models/favorites.dart';
-import 'package:my_fit/screens/home-page.dart';
 import 'package:provider/provider.dart';
 
 class FavoritesPage extends StatefulWidget {
@@ -48,10 +47,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
           .map((itemGroup) => _FavoriteGroupCard(
                 context,
                 itemGroup,
-                onClickCallback: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                      builder: (context) => HomePage(itemGroup: itemGroup)),
-                ),
               ))
           .toList(),
     );
@@ -75,7 +70,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
       children: <Widget>[
         Card(
           child: SplashContainer(
-            context: context,
             child: Container(
               padding: EdgeInsets.symmetric(vertical: 20),
               child: Center(
@@ -252,7 +246,7 @@ class _FavoriteGroupCardPreviewListItem extends StatelessWidget {
 
   /// Build preview item skeleton.
   Widget _buildPreviewItemSkeleton() {
-    return SplashContainer(context: context);
+    return SplashContainer();
   }
 
   /// Build widget for announcing more items. Displays the number of additional items.
